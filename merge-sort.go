@@ -10,10 +10,9 @@ import (
 )
 
 func main() {
-
 	arrayToSort := getArrayToSort()
 
-	sorted := SelectionSort(arrayToSort)
+	sorted := MergeSort(arrayToSort)
 
 	fmt.Println(sorted[:10])
 }
@@ -48,26 +47,33 @@ func timeTrack(start time.Time, name string) {
 	log.Printf("%s took %s", name, elapsed)
 }
 
-func SelectionSort(A []int) []int {
-	defer timeTrack(time.Now(), "selectionsort")
+func MergeSort(A []int) []int {
+	var arrayLength = len(A)
 
-	for j := 0; j < len(A)-1; j++ {
-		iMin := j
-
-		for i := j + 1; i < len(A); i++ {
-			if A[i] < A[iMin] {
-				iMin = i
-			}
-		}
-
-		if iMin != j {
-			tmp := A[j]
-
-			A[j] = A[iMin]
-
-			A[iMin] = tmp
-		}
+	// Base case
+	if arrayLength == 1 {
+		return A
 	}
 
-	return A
+	// Split the arrays in half
+	var left = make([]int, arrayLength/2)
+	var right = make([]int, arrayLength/2+1)
+
+	// Recurse to split in half
+	left = MergeSort(left)
+	right = MergeSort(right)
+
+	// After the recursive split has completed and returned, merge the two arrays back up the stack
+	return Merge(left, right)
+}
+
+func Merge(left []int, right []int) []int {
+
+	var sorted []int
+
+	for len(left) > 0 && len(right) > 0 {
+
+	}
+
+	return sorted
 }
